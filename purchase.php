@@ -15,10 +15,12 @@
  * under the License.
  */
 
-require_once(dirname(__FILE__) . '/killbill-client-php/lib/killbill.php');
 require_once(dirname(__FILE__) . '/util.php');
 
 include_once(dirname(__FILE__) . '/includes/client.php');
+
+use Killbill\Client\Account;
+use Killbill\Client\Subscription;
 
 ensureLoggedIn();
 
@@ -29,7 +31,7 @@ function iso8601($time = false) {
     return date("Y-m-d", $time);
 }
 
-$account = new Killbill_Account();
+$account = new Account();
 $account->accountId = $_SESSION['accountId'];
 $account = $account->get($tenantHeaders);
 
@@ -43,7 +45,7 @@ for ($i = 1; $i <= $_POST['nb_plans']; $i++) {
         $externalBundleId = uniqid();
 
         // Associate a subscription
-        $subscriptionData = new Killbill_Subscription();
+        $subscriptionData = new Subscription();
         $subscriptionData->accountId =  $account->accountId;
         $subscriptionData->externalKey = $externalBundleId;
         $subscriptionData->startDate = iso8601();

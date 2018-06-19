@@ -15,7 +15,6 @@
  * under the License.
  */
 
-require_once(dirname(__FILE__) . '/killbill-client-php/lib/killbill.php');
 require_once(dirname(__FILE__) . '/util.php');
 
 include_once(dirname(__FILE__) . '/includes/client.php');

@@ -23,7 +23,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="index.php">Spy Car Shop</a>
+            <a class="brand" href="index.php">SecurePay</a>
 
             <div class="nav-collapse">
                 <ul class="nav">
@@ -33,7 +33,7 @@
                     <li><a href="account.php">My Account</a></li>
                     <li><a href="invoices.php">My Invoices</a></li>
                     <li><a href="subscriptions.php">My Subscriptions</a></li>
-                    <li><a href="catalog.php">Purchase Spy Car Subscriptions</a></li>
+                    <li><a href="catalog.php">Purchase Subscriptions</a></li>
 <?php
   }
 ?>

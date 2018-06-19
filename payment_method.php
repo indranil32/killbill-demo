@@ -15,7 +15,6 @@
  * under the License.
  */
 
-require_once(dirname(__FILE__) . '/killbill-client-php/lib/killbill.php');
 require_once(dirname(__FILE__) . '/util.php');
 
 include_once(dirname(__FILE__) . '/includes/client.php');
@@ -24,7 +23,13 @@ ensureLoggedIn();
 
 include_once(dirname(__FILE__) . '/includes/header.php');
 include_once(dirname(__FILE__) . '/includes/nav.php');
+
+use Killbill\Client\PaymentMethod;
+use Killbill\Client\Type\PaymentMethodPluginDetailAttributes;
+use Killbill\Client\Type\PluginPropertyAttributes;
+
 ?>
+
 
 <div class="container">
 <?php
@@ -35,17 +40,17 @@ $account = loadAccount($tenantHeaders);
 $pm_created = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $paymentMethodData = new Killbill_PaymentMethod();
+  $paymentMethodData = new PaymentMethod();
   $paymentMethodData->accountId = $account->accountId;
   $paymentMethodData->isDefault = true;
   $paymentMethodData->pluginName = 'killbill-coinbase';
 
-  $propApiKey = new Killbill_PaymentMethodProperties();
+  $propApiKey = new PluginPropertyAttributes();
   $propApiKey->key = 'apiKey';
   $propApiKey->value = $_POST['btcApiKey'];
   $propApiKey->isUpdatable = false;
 
-  $paymentMethodData->pluginInfo = new Killbill_PaymentMethodPluginDetailAttributes();
+  $paymentMethodData->pluginInfo = new PaymentMethodPluginDetailAttributes();
   $paymentMethodData->pluginInfo->properties = array($propApiKey);
 
   $paymentMethod = $paymentMethodData->create("web-user", "PHP_TEST", "Test for the demo", $tenantHeaders);
@@ -55,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $pm_created = FALSE;
   }
 } else {
-    $paymentMethod = new Killbill_PaymentMethod();
+    $paymentMethod = new PaymentMethod();
 }
 ?>
 

@@ -19,10 +19,11 @@ if ($_GET['id'] == null) {
     header('Location: /invoices.php');
 }
 
-require_once(dirname(__FILE__) . '/killbill-client-php/lib/killbill.php');
 require_once(dirname(__FILE__) . '/util.php');
 
 include_once(dirname(__FILE__) . '/includes/client.php');
+
+use Killbill\Client\Invoice;
 
 ensureLoggedIn();
 
@@ -35,7 +36,7 @@ include_once(dirname(__FILE__) . '/includes/nav.php');
     <div class="well">
     <?php
 
-    $invoice = new Killbill_Invoice();
+    $invoice = new Invoice();
     $invoice->invoiceId = $_GET['id'];
     $invoice = $invoice->get(true, $tenantHeaders);
 

@@ -20,18 +20,18 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Killbilling, Open-Source subscription system</title>
+    <title>SecurePay</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="spy car demo">
-    <meta name="author" content="">
+    <meta name="description" content="securepay killbill demo">
+    <meta name="author" content="Indranil Majumder">
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
     </style>
-    <link href="../css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>

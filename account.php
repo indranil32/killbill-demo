@@ -15,9 +15,11 @@
  * under the License.
  */
 
-require_once(dirname(__FILE__) . '/killbill-client-php/lib/killbill.php');
+require_once(dirname(__FILE__) . '/killbill-client-php/vendor/autoload.php');
 
 include_once(dirname(__FILE__) . '/includes/client.php');
+
+use Killbill\Client\Account;
 
 session_start();
 
@@ -25,17 +27,20 @@ $account_created = null;
 $account_updated = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $accountData = new Killbill_Account();
+    $accountData = new Account();
     $accountData->name = $_POST['name'];
     $accountData->email = $_POST['email'];
     $accountData->currency = $_POST['currency'];
     $accountData->paymentMethodId = null;
     $accountData->address1 = $_POST['address1'];
     $accountData->address2 = $_POST['address2'];
+    $accountData->postalCode = $_POST['postalCode'];
+    $accountData->city = $_POST['city'];
     $accountData->state = $_POST['state'];
     $accountData->country = $_POST['country'];
     $accountData->phone = $_POST['phone'];
-    $accountData->length = strlen($accountData->name);
+    list($fName, $lName) =  preg_split("/[\s]+/", $accountData->name, 2);
+    $accountData->firstNameLength = strlen($fName);
     $accountData->timeZone = 'UTC'; //$_POST['timeZone'];
 
     if (!isset($_SESSION['accountId'])) {
@@ -48,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['accountId'] = $account->accountId;
             $account_created = TRUE;
         } else {
-            $account = new Killbill_Account();
+            $account = new Account();
             $account_created = FALSE;
         }
     } else {
@@ -64,12 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($account != null) {
             $account_updated = TRUE;
         } else {
-            $account = new Killbill_Account();
+            $account = new Account();
             $account_updated = FALSE;
         }
     }
 } else {
-    $account = new Killbill_Account();
+    $account = new Account();
 
     if (isset($_SESSION['accountId'])) {
         $account->accountId = $_SESSION['accountId'];
@@ -97,7 +102,7 @@ if ($account_created === FALSE) {
       </div>
     <?php
     if ($account->currency === 'BTC') {
-        header('Location: /payment_method.php');
+        header('Location: payment_method.php');
     }
     ?>
     <?php
@@ -120,7 +125,7 @@ if ($account_created === FALSE) {
 ?>
     <form class="form-horizontal" method="post" action="account.php">
         <fieldset>
-            <legend>Your account in Killbill</legend>
+            <legend>Your account in SecurePay</legend>
         <?php if (isset($_SESSION['accountId'])) { ?>
             <div class="control-group">
                 <label class="control-label">Account id</label>
@@ -184,6 +189,26 @@ if ($account_created === FALSE) {
                            value="<?php echo $account->address2; ?>">
 
                     <p class="help-block">Additional address information, e.g. Apt 12</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="postalCode">Postal Code</label>
+
+                <div class="controls">
+                    <input type="text" class="input-xlarge" id="postalCode" name="postalCode"
+                           value="<?php echo $account->postalCode; ?>">
+
+                    <p class="help-block">Your postal code, e.g. 90301</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="city">City</label>
+
+                <div class="controls">
+                    <input type="text" class="input-xlarge" id="city" name="city"
+                           value="<?php echo $account->city; ?>">
+
+                    <p class="help-block">Your state, e.g. El Segundo</p>
                 </div>
             </div>
             <div class="control-group">

@@ -14,7 +14,10 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
+require_once(dirname(__FILE__) . '/killbill-client-php/vendor/autoload.php');
 
+use Killbill\Client\Account;
+use Killbill\Client\Catalog;
 /**
  * If the user is not logged-in, redirect it to the account creation page
  *
@@ -34,7 +37,7 @@ function ensureLoggedIn() {
  * @return account object
  */
 function loadAccount($tenantHeaders) {
-    $account = new Killbill_Account();
+    $account = new Account();
     $account->accountId = $_SESSION['accountId'];
     return $account->get($tenantHeaders);
 }
@@ -45,7 +48,7 @@ function loadAccount($tenantHeaders) {
  * @return catalog object
  */
 function loadCatalog($tenantHeaders) {
-    $catalog = new Killbill_Catalog();
+    $catalog = new Catalog();
     $catalog->initialize($tenantHeaders);
     return $catalog;
 }
